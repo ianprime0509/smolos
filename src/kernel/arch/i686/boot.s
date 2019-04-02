@@ -21,7 +21,7 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-	mov $stack_top, %esp
+	movl $stack_top, %esp
 
 	/* TODO: paging and GDT */
 	call kmain

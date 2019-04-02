@@ -15,6 +15,9 @@ clean: kernel-clean
 KERNEL_DIR = src/kernel
 include $(KERNEL_DIR)/build.mk
 
+run: kernel-all
+	$(QEMU) -kernel $(KERNEL_DIR)/kernel.bin
+
 .c.o:
 	$(CC) $(CFLAGS) -c -o $@ $<
 

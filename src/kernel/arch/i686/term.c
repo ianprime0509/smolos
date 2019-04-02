@@ -4,6 +4,8 @@
 #include <kernel/core.h>
 #include <kernel/term.h>
 
+#include <kernel/arch/i686/port.h>
+
 #define TROWS 25
 #define TCOLS 80
 
@@ -34,6 +36,14 @@ static uint16_t *termbuf = (uint16_t *)0xB8000;
 static Color fgcolor = LIGHT_GREY;
 static Color bgcolor = BLACK;
 static size_t row, col;
+
+static void
+cursoroff(void)
+{
+	/* From https://wiki.osdev.org/Text_Mode_Cursor#Without_the_BIOS */
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, 0x20);
+}
 
 static uint16_t
 makechar(char c, Color fg, Color bg)
@@ -72,6 +82,7 @@ tab(void)
 void
 terminit(void)
 {
+	cursoroff();
 	termclear();
 }
 
