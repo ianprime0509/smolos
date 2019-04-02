@@ -3,7 +3,7 @@
 .type outb, @function
 outb:
 	movl 4(%esp), %edx
-	movl 8(%esp), %eax
+	movb 8(%esp), %al
 	outb %al, %dx
 	ret
 .size outb, . - outb
@@ -12,7 +12,7 @@ outb:
 .type outw, @function
 outw:
 	movl 4(%esp), %edx
-	movl 8(%esp), %eax
+	movw 8(%esp), %ax
 	outw %ax, %dx
 	ret
 .size outw, . - outw

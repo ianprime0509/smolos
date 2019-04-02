@@ -23,7 +23,7 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
-	/* TODO: paging and GDT */
+	call kinit
 	call kmain
 
 	cli
