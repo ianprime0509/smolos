@@ -18,7 +18,6 @@ typedef void (*IdtHnd)(HndArg*);
 /* TODO: fill this in a bit more */
 struct HndArg {
 	uint16_t ds;
-	uint16_t empty;
 	uint32_t edx;
 	uint32_t ecx;
 	uint32_t ebx;
@@ -64,10 +63,10 @@ handleempty(HndArg *a)
 }
 
 static void
-handledie(HndArg *a)
+handledouble(HndArg *a)
 {
 	printf("eax = %X, ebx = %X, ecx = %X, edx = %X\n", a->eax, a->ebx, a->ecx, a->edx);
-	panic("Die (INT 0x%X)\n", a->intno);
+	panic("Double fault");
 }
 
 void lidt(uint64_t *tab, size_t sz);
@@ -104,8 +103,7 @@ idtinit(void)
 		handlers[i] = handleempty;
 		tab[i] = 0;
 	}
-	handlers[8] = handledie;
-	handlers[13] = handledie;
+	handlers[8] = handledouble;
 
 	HANDLE(0);
 	HANDLE(1);

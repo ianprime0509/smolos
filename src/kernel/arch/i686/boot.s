@@ -17,6 +17,9 @@ stack_bottom:
 .skip 16384 /* 16 KiB */
 stack_top:
 
+.section .data
+exited: .string "Kernel exited"
+
 .section .text
 .global _start
 .type _start, @function
@@ -34,8 +37,7 @@ _start:
 
 	call kmain
 
-	cli
-1:	hlt
-	jmp 1b
-
+	subl $12, %esp
+	pushl $exited
+	call panic
 .size _start, . - _start

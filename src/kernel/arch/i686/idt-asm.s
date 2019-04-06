@@ -44,7 +44,7 @@ handler\n :
 	# Make sure the stack is 16-byte aligned
 	movl %esp, %ebp
 	andl $-16, %esp
-	addl $12, %esp
+	subl $12, %esp
 	pushl %ebp
 
 	movl $\n, %eax
@@ -65,6 +65,7 @@ handler\n :
 	popl %ebx
 	popl %eax
 	addl $8, %esp
+	hlt
 
 	iret
 .size handler\n, . - handler\n
