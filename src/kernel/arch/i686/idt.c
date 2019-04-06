@@ -17,6 +17,8 @@ typedef void (*IdtHnd)(HndArg*);
 
 /* TODO: fill this in a bit more */
 struct HndArg {
+	uint16_t ds;
+	uint16_t empty;
 	uint32_t edx;
 	uint32_t ecx;
 	uint32_t ebx;

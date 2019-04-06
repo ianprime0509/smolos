@@ -23,12 +23,15 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
+	# The stack is already 16-byte aligned at this point
 	call kinit
 	# TODO: set up PIC so we don't have to do this
 	movb $0xFF, %al
 	outb %al, $0xA1
 	outb %al, $0x21
+
 	sti
+
 	call kmain
 
 	cli

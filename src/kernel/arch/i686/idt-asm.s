@@ -30,6 +30,17 @@ handler\n :
 	pushl %ebx
 	pushl %ecx
 	pushl %edx
+	movw %ds, %ax
+	pushl %eax
+
+	# TODO: don't hardcode the segment in case it changes in the future
+	movw $0x10, %ax
+	movw %ax, %ds
+	movw %ax, %es
+	movw %ax, %fs
+	movw %ax, %gs
+	movw %ax, %ss
+
 	# Make sure the stack is 16-byte aligned
 	movl %esp, %ebp
 	andl $-16, %esp
@@ -41,11 +52,20 @@ handler\n :
 	call *%eax
 
 	movl %ebp, %esp
+
+	popl %eax
+	movw %ax, %ds
+	movw %ax, %es
+	movw %ax, %fs
+	movw %ax, %gs
+	movw %ax, %ss
+
 	popl %edx
 	popl %ecx
 	popl %ebx
 	popl %eax
 	addl $8, %esp
+
 	iret
 .size handler\n, . - handler\n
 .endm
