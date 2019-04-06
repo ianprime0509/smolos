@@ -24,6 +24,7 @@ _start:
 	movl $stack_top, %esp
 
 	call kinit
+	sti
 	call kmain
 
 	cli

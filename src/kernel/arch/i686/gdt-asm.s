@@ -10,6 +10,7 @@ lgdt:
 	movl 4(%esp), %eax
 	movl %eax, offset
 	movw 8(%esp), %ax
+	decw %ax
 	movw %ax, limit
 	lgdt gdt
 	ret
