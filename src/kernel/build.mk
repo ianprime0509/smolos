@@ -6,7 +6,8 @@ KERNEL_LINK_LD = $(KERNEL_ARCH_DIR)/link.ld
 KERNEL_OBJS = $(KERNEL_ARCH_OBJS) \
 	$(KERNEL_DIR)/core.o \
 	$(KERNEL_DIR)/fmt.o \
-	$(KERNEL_DIR)/kmain.o
+	$(KERNEL_DIR)/kmain.o \
+	$(KERNEL_DIR)/panic.o
 
 kernel-all: $(KERNEL_BIN)
 

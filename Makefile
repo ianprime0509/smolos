@@ -7,6 +7,7 @@ include config.mk
 
 ASFLAGS =
 CFLAGS = -Iinclude -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+CPPFLAGS = -D$(TARGET)
 
 all: kernel-all
 
@@ -19,7 +20,7 @@ run: kernel-all
 	$(QEMU) -kernel $(KERNEL_DIR)/kernel.bin
 
 .c.o:
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<
