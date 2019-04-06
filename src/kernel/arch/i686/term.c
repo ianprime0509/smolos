@@ -65,7 +65,7 @@ newline(void)
 	row = TROWS - 1;
 
 	clear = makechar(' ', fgcolor, bgcolor);
-	for (i = 0; i < TROWS - 1; i++)
+	for (i = 1; i < TROWS; i++)
 		memcpy(termbuf + (i - 1) * TCOLS, termbuf + i * TCOLS, TCOLS * sizeof(*termbuf));
 	for (i = 0; i < TCOLS; i++)
 		termbuf[i + (TROWS - 1) * TCOLS] = clear;

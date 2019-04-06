@@ -6,7 +6,7 @@
 include config.mk
 
 ASFLAGS =
-CFLAGS = -Iinclude -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+CFLAGS = -Iinclude -std=gnu99 -ffreestanding -O0 -g -Wall -Wextra
 CPPFLAGS = -D$(TARGET)
 
 all: kernel-all

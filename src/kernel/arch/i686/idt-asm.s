@@ -25,29 +25,48 @@ handler\n :
 .if !\err
 	pushl $0
 .endif
+	pushl $\n
 	pushl %eax
+	pushl %ebx
 	pushl %ecx
 	pushl %edx
-	pushl $\n
-	pushl %esp
+	# Make sure the stack is 16-byte aligned
+	movl %esp, %ebp
+	andl $-16, %esp
+	addl $12, %esp
+	pushl %ebp
+
 	movl $\n, %eax
-	shll $3, %eax
-	addl $handlers, %eax
+	movl handlers(,%eax,4), %eax
+	call *%eax
 
-	call *(%eax)
-
-	popl %esp
-	addl $4, %esp
+	movl %ebp, %esp
 	popl %edx
 	popl %ecx
+	popl %ebx
 	popl %eax
-.if !\err
-	addl $4, %esp
-.endif
+	addl $8, %esp
 	iret
 .size handler\n, . - handler\n
 .endm
 
 handler 0
 handler 1
+handler 2
+handler 3
+handler 4
+handler 5
+handler 6
+handler 7
+handler 8 1
+handler 9
+handler 10 1
+handler 11 1
+handler 12 1
 handler 13 1
+handler 14 1
+handler 16
+handler 17 1
+handler 18
+handler 19
+handler 20

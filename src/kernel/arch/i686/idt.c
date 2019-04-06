@@ -1,7 +1,9 @@
+#include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
 
 #include <kernel/core.h>
+#include <kernel/fmt.h>
 
 #include <kernel/arch/i686/gdt.h>
 
@@ -15,7 +17,12 @@ typedef void (*IdtHnd)(HndArg*);
 
 /* TODO: fill this in a bit more */
 struct HndArg {
+	uint32_t edx;
+	uint32_t ecx;
+	uint32_t ebx;
+	uint32_t eax;
 	uint32_t intno;
+	uint32_t err;
 };
 
 /*
@@ -50,14 +57,39 @@ makeent(IdtEnt ent)
 static void
 handleempty(HndArg *a)
 {
-	panic("No handler installed (INT 0x%X)", a->intno);
+	printf("No handler installed (INT 0x%X)\n", a->intno);
+	printf("eax = %X, ebx = %X, ecx = %X, edx = %X\n", a->eax, a->ebx, a->ecx, a->edx);
+}
+
+static void
+handledie(HndArg *a)
+{
+	printf("eax = %X, ebx = %X, ecx = %X, edx = %X\n", a->eax, a->ebx, a->ecx, a->edx);
+	panic("Die (INT 0x%X)\n", a->intno);
 }
 
 void lidt(uint64_t *tab, size_t sz);
 
 void handler0(void);
 void handler1(void);
+void handler2(void);
+void handler3(void);
+void handler4(void);
+void handler5(void);
+void handler6(void);
+void handler7(void);
+void handler8(void);
+void handler9(void);
+void handler10(void);
+void handler11(void);
+void handler12(void);
 void handler13(void);
+void handler14(void);
+void handler16(void);
+void handler17(void);
+void handler18(void);
+void handler19(void);
+void handler20(void);
 
 #define HANDLE(n) tab[n] = makeent((IdtEnt){.handler = handler ## n, .codesel = GSCODE, .ring = 0})
 
@@ -66,12 +98,33 @@ idtinit(void)
 {
 	size_t i;
 
-	for (i = 0; i < MAXENT; i++)
+	for (i = 0; i < MAXENT; i++) {
 		handlers[i] = handleempty;
+		tab[i] = 0;
+	}
+	handlers[8] = handledie;
+	handlers[13] = handledie;
 
 	HANDLE(0);
 	HANDLE(1);
+	HANDLE(2);
+	HANDLE(3);
+	HANDLE(4);
+	HANDLE(5);
+	HANDLE(6);
+	HANDLE(7);
+	HANDLE(8);
+	HANDLE(9);
+	HANDLE(10);
+	HANDLE(11);
+	HANDLE(12);
 	HANDLE(13);
+	HANDLE(14);
+	HANDLE(16);
+	HANDLE(17);
+	HANDLE(18);
+	HANDLE(19);
+	HANDLE(20);
 
 	lidt(tab, sizeof(tab));
 }

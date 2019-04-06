@@ -8,6 +8,7 @@ void
 kmain(void)
 {
 	printf("Kernel booted\n");
+	__asm__ volatile ("int $0xD");
 
 	panic("Oh no!");
 }

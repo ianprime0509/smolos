@@ -24,6 +24,10 @@ _start:
 	movl $stack_top, %esp
 
 	call kinit
+	# TODO: set up PIC so we don't have to do this
+	movb $0xFF, %al
+	outb %al, $0xA1
+	outb %al, $0x21
 	sti
 	call kmain
 
